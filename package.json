@@ -1,6 +1,6 @@
 {
-  "name": "easyauth-react-d",
-  "version": "1.0.1",
+  "name": "easyauth-react",
+  "version": "1.0.0",
   "description": "React SDK for EasyAuth",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
