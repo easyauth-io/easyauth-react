@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { AuthProvider } from "react-oidc-context";
-import { WebStorageStateStore } from "oidc-client-ts";
+import React from 'react';
+import PropTypes from 'prop-types';
+import {AuthProvider} from 'react-oidc-context';
+import {WebStorageStateStore} from 'oidc-client-ts';
 
 export const EasyauthProvider = ({
   authority,
@@ -14,11 +14,11 @@ export const EasyauthProvider = ({
   };
   const oidcConfig = {
     authority:
-      (authority || process.env.REACT_APP_EASYAUTH_APP_URL) + "/tenantbackend",
+      (authority || process.env.REACT_APP_EASYAUTH_APP_URL) + '/tenantbackend',
     client_id: clientId || process.env.REACT_APP_EASYAUTH_CLIENT_ID,
     redirect_uri: redirectUri || process.env.REACT_APP_EASYAUTH_REDIRECT_URL,
     onSigninCallback: onSigninCallback,
-    userStore: new WebStorageStateStore({ store: window.localStorage }),
+    userStore: new WebStorageStateStore({store: window.localStorage}),
   };
   return (
     <div>
