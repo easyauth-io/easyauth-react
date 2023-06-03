@@ -8,7 +8,11 @@ module.exports = {
       version: 'detect',
     },
   },
-  extends: ['google', 'plugin:react/recommended'],
+  extends: [
+    'google',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
