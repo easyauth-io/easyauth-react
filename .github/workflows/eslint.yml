@@ -7,18 +7,36 @@
 # More details at https://github.com/eslint/eslint
 # and https://eslint.org
 
-name: ESLint
+name: Build and lint
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: ["main"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main", "dev" ]
+    branches: ["main"]
   schedule:
-    - cron: '28 20 * * 5'
+    - cron: "28 20 * * 5"
 
 jobs:
+  build:
+    name: Run build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Npm install
+        run: |
+          npm install
+
+      - name: Run build
+        run: npm run build-lib
+        continue-on-error: true
+
   eslint:
     name: Run eslint scanning
     runs-on: ubuntu-latest
