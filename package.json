@@ -6,7 +6,8 @@
   "module": "dist/index.es.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-lib": "rollup -c"
+    "build-lib": "rollup -c",
+    "lint": "eslint . --ext .js,.jsx"
   },
   "keywords": [
     "easyauth",
