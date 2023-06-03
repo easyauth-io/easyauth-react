@@ -22,7 +22,7 @@ EasyAuth is a simple and quick way to add authentication and user management to 
 ### Installation
 
 ```sh
-npm install @easyauth.io/react
+npm install @easyauth.io/easyauth-react
 ```
 
 ## Usage
