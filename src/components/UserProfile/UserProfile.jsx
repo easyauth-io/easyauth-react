@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useEasyauth} from '../../hooks/useEasyauth/useEasyauth.jsx';
+import {getProfile} from '../../api/api.js';
 
 export const UserProfile = () => {
   const auth = useEasyauth();
@@ -7,26 +8,14 @@ export const UserProfile = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const token = auth.user?.access_token;
-        const response = await fetch(
-            process.env.REACT_APP_EASYAUTH_APP_URL +
-             '/tenantbackend/api/profile',
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-        );
-        setProfile(await response.json());
-      } catch (e) {
-        console.error(e);
-      }
+      const token = auth.user?.access_token;
+      const response = await getProfile(token);
+      setProfile(response.data);
     })();
   }, [auth]);
 
   if (!profile) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
