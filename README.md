@@ -45,7 +45,7 @@ Example App:
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { EasyauthProvider } from "easyauth-react";
+import { EasyauthProvider } from "@easyauth.io/easyauth-react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -62,7 +62,7 @@ root.render(
 
 //App.js
 
-import { useEasyauth } from "easyauth-react";
+import { useEasyauth } from "@easyauth.io/easyauth-react";
 
 function App() {
   const auth = useEasyauth();
