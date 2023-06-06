@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useEasyauth} from '../../hooks/useEasyauth/useEasyauth.jsx';
+import PropTypes from 'prop-types';
 import {getProfile} from '../../api/api.js';
 
-export const UserProfile = () => {
+export const UserProfile = ({loader}) => {
   const auth = useEasyauth();
   const [profile, setProfile] = useState(null);
 
@@ -14,16 +15,24 @@ export const UserProfile = () => {
     })();
   }, [auth]);
 
-  if (!profile) {
+  if (auth.user?.access_token) {
+    if (!profile) {
+      return loader||'Lodaing...';
+    } else {
+      return (
+        <ul>
+          <li>Email: {profile.email}</li>
+          <li>Email verified: {JSON.stringify(profile.emailVerified)}</li>
+          <li>Phone: {profile.phone}</li>
+          <li>Phone verified: {JSON.stringify(profile.phoneVerified)}</li>
+        </ul>
+      );
+    }
+  } else {
     return null;
   }
+};
 
-  return (
-    <ul>
-      <li>Email: {profile.email}</li>
-      <li>Email verified: {JSON.stringify(profile.emailVerified)}</li>
-      <li>Phone: {profile.phone}</li>
-      <li>Phone verified: {JSON.stringify(profile.phoneVerified)}</li>
-    </ul>
-  );
+UserProfile.propTypes = {
+  loader: PropTypes.element,
 };
