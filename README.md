@@ -42,6 +42,8 @@ in `.env.local` file to make the environment variable accessible on `process.env
 Example App:
 
 ```jsx
+//index.js
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
@@ -50,19 +52,24 @@ import { EasyauthProvider } from "@easyauth.io/easyauth-react";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <EasyauthProvider
-      authority={process.env.REACT_APP_EASYAUTH_APP_URL}
-      clientId={process.env.REACT_APP_EASYAUTH_CLIENT_ID}
-      redirectUri={process.env.REACT_APP_EASYAUTH_REDIRECT_URL}
-    >
+    <EasyauthProvider>
       <App />
     </EasyauthProvider>
   </React.StrictMode>
 );
 
+//User can also pass authority,clientId,redirectUri explicitly as a prop in EasauthProvider component 
+//for ex. <EasyauthProvider
+    //      authority={process.env.REACT_APP_EASYAUTH_APP_URL}
+    //      clientId={process.env.REACT_APP_EASYAUTH_CLIENT_ID}
+    //      redirectUri={process.env.REACT_APP_EASYAUTH_REDIRECT_URL}
+    //     >
+    //      <App />
+    //    </EasyauthProvider> 
+
 //App.js
 
-import { useEasyauth } from "@easyauth.io/easyauth-react";
+import { useEasyauth, UserProfile } from "@easyauth.io/easyauth-react";
 
 function App() {
   const auth = useEasyauth();
@@ -86,7 +93,7 @@ function App() {
       <div className="App">
         <header className="App-header">
           <p>Hello {auth.user?.profile.sub} </p>
-          <Profile />
+          <UserProfile />
           <button
             onClick={() => {
               auth.removeUser();
