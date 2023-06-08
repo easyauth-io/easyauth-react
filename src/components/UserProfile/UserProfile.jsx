@@ -9,8 +9,7 @@ export const UserProfile = ({loader}) => {
 
   useEffect(() => {
     (async () => {
-      const token = auth.user?.access_token;
-      const response = await getProfile(token);
+      const response = await getProfile();
       setProfile(response.data);
     })();
   }, [auth]);
