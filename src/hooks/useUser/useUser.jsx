@@ -12,7 +12,7 @@ export const useUser = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [auth]);
 
   return {
     isAuthenticated: auth.isAuthenticated,
