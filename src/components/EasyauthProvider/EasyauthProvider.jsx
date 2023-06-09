@@ -28,8 +28,8 @@ export const EasyauthProvider = ({
 };
 
 EasyauthProvider.propTypes = {
-  authority: PropTypes.string.isRequired,
-  clientId: PropTypes.string.isRequired,
-  redirectUri: PropTypes.string.isRequired,
+  authority: PropTypes.string,
+  clientId: PropTypes.string,
+  redirectUri: PropTypes.string,
   children: PropTypes.node,
 };

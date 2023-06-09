@@ -39,6 +39,15 @@ If using Create React App, set :
 
 in `.env.local` file to make the environment variable accessible on `process.env`.
 
+```.env
+#.env.local
+
+REACT_APP_EASYAUTH_APP_URL=https://<your_subdomain>.app.easyauth.io
+REACT_APP_EASYAUTH_CLIENT_ID=<client_id>
+REACT_APP_EASYAUTH_REDIRECT_URL=<redirect_uri such as http://127.0.0.1:3000>
+
+```
+
 Example App:
 
 ```jsx
@@ -57,16 +66,11 @@ root.render(
     </EasyauthProvider>
   </React.StrictMode>
 );
+```
 
-//User can also pass authority,clientId,redirectUri explicitly as a prop in EasauthProvider component 
-//for ex. <EasyauthProvider
-    //      authority={process.env.REACT_APP_EASYAUTH_APP_URL}
-    //      clientId={process.env.REACT_APP_EASYAUTH_CLIENT_ID}
-    //      redirectUri={process.env.REACT_APP_EASYAUTH_REDIRECT_URL}
-    //     >
-    //      <App />
-    //    </EasyauthProvider> 
+_User can also pass authority,clientId,redirectUri explicitly as a prop in EasauthProvider component._
 
+```jsx
 //App.js
 
 import { useEasyauth, UserProfile } from "@easyauth.io/easyauth-react";
@@ -116,6 +120,16 @@ function App() {
 }
 
 export default App;
+```
+
+```jsx
+<EasyauthProvider
+  authority={process.env.REACT_APP_EASYAUTH_APP_URL}
+  clientId={process.env.REACT_APP_EASYAUTH_CLIENT_ID}
+  redirectUri={process.env.REACT_APP_EASYAUTH_REDIRECT_URL}
+>
+  <App />
+</EasyauthProvider>
 ```
 
 _For further details and examples, please refer to our [Documentation](https://easyauth.io/docs/quickstart/react/)._

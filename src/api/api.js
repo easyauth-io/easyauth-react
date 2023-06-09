@@ -1,5 +1,18 @@
 const BASE_URL = process.env.REACT_APP_EASYAUTH_APP_URL + '/tenantbackend';
 
+
+const tokenLocalStorage = () => {
+  let result;
+  const keys = Object.keys(localStorage);
+  keys.forEach((key) => {
+    if (key.startsWith('oidc.user')) {
+      result = key;
+    }
+  });
+  const value = localStorage.getItem(result);
+  return JSON.parse(value)?.id_token;
+};
+
 const commonAPICall = async (
     PATH,
     METHOD = 'GET',
@@ -13,7 +26,10 @@ const commonAPICall = async (
   const response = await fetch(FULLPATH, {
     method: METHOD,
     body: BODY,
-    headers: headers,
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${tokenLocalStorage()}`,
+    },
   });
 
   return response;
@@ -36,13 +52,29 @@ const postAPI = async (PATH, DATA) => {
   return response;
 };
 
-const getProfile = async (token) => {
-  const headers = {Authorization: `Bearer ${token}`};
-  const response = await getAPI('/api/profile', headers);
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
+const getProfile = async () => {
+  const response = await getAPI('/api/profile');
+  return response;
+};
+const getStripeCreatePortalSessionUrl = async () => {
+  const response = await getAPI('/api/stripe/create-portal-session');
+  return response;
+};
+const getStripeCheckoutUrl = async (priceId) => {
+  const response = await getAPI(`/api/stripe/checkout/${priceId}`);
+  return response;
+};
+const getStripeSubscriptions = async () => {
+  const response = await getAPI('/api/stripe/subscriptions');
   return response;
 };
 
-export {commonAPICall, getAPI, postAPI, getProfile};
+export {
+  commonAPICall,
+  getAPI,
+  postAPI,
+  getProfile,
+  getStripeCreatePortalSessionUrl,
+  getStripeCheckoutUrl,
+  getStripeSubscriptions,
+};
