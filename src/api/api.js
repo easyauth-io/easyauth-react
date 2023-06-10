@@ -22,14 +22,18 @@ const commonAPICall = async (
       'Content-Type': 'application/json',
     },
 ) => {
+  const token = tokenLocalStorage();
   const FULLPATH = BASE_URL + PATH;
+  if (token) {
+    headers = {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+    };
+  }
   const response = await fetch(FULLPATH, {
     method: METHOD,
     body: BODY,
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${tokenLocalStorage()}`,
-    },
+    headers: headers,
   });
 
   return response;
