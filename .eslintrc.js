@@ -18,5 +18,8 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
-  rules: {},
+  rules: {
+    'max-len': 'off',
+    'require-jsdoc': 'off',
+  },
 };
