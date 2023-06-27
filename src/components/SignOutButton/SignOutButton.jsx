@@ -4,41 +4,19 @@ import React from 'react';
 
 export const SignOutButton = ({callback, children}) => {
   const auth = useEasyauth();
-  if (!children) {
-    return (
-      <a
-        href={
-          process.env.REACT_APP_EASYAUTH_APP_URL +
-          '/logout?target=' +
-          btoa(callback || window.location.href)
-        }
-      >
-        <button
-          onClick={() => {
-            auth.removeUser();
-          }}
-        >
-          Sign Out
-        </button>
-      </a>
-    );
-  }
+  const logoutLink =
+    auth.settings.authority.substring(0, auth.settings.authority.lastIndexOf('/')) +
+    '/logout?target=' +
+    btoa(callback || window.location.href);
+
   return (
-    <a
-      href={
-        process.env.REACT_APP_EASYAUTH_APP_URL +
-        '/logout?target=' +
-        btoa(callback || window.location.href)
-      }
+    <div
+      onClick={() => {
+        auth.removeUser().then(() => (window.location.href = logoutLink));
+      }}
     >
-      <div
-        onClick={() => {
-          auth.removeUser();
-        }}
-      >
-        {children}
-      </div>
-    </a>
+      {children ? children : <button style={{cursor: 'pointer'}}>Sign Out</button>}
+    </div>
   );
 };
 
