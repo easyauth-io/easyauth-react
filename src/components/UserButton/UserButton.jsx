@@ -3,8 +3,8 @@ import {useUser} from '../../hooks/useUser/useUser.jsx';
 import {useEasyauth} from '../../hooks/useEasyauth/useEasyauth.jsx';
 import PropTypes from 'prop-types';
 import {iconUser} from '../uiComponents/iconUser.js';
-import {Box, Modal} from '@mui/material';
 import {UserProfile} from '../UserProfile/UserProfile.jsx';
+import {Modal} from '@mantine/core';
 
 
 export const UserButton = ({position, profileRedirect}) => {
@@ -20,20 +20,9 @@ export const UserButton = ({position, profileRedirect}) => {
       setOpen(false);
     };
     return (
-      <>
-        <Modal open={open} onClose={handleClose}>
-          <Box>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <UserProfile />
-            </div>
-          </Box>
-        </Modal>
-      </>
+      <Modal centered opened={open} onClose={handleClose}>
+        <UserProfile />
+      </Modal>
     );
   };
 

@@ -73,6 +73,41 @@ const getStripeSubscriptions = async () => {
   return response;
 };
 
+const profileImageAPI = async (method, formData = null) => {
+  const headers = {
+    accept: '*/*',
+  };
+  const response = await commonAPICall(
+      '/api/profile/profile-image',
+      method,
+      formData,
+      headers,
+  );
+  try {
+    response.data = await response.blob();
+  } catch (error) {
+    response.dataerror = error;
+  }
+  return response;
+};
+
+const profileImageUpload = async (file) => {
+  const formData = new FormData();
+  formData.append('profileImageFile', file);
+  const response = await profileImageAPI('POST', formData);
+  return response;
+};
+const profileImageDelete = async () => {
+  const response = await profileImageAPI('DELETE');
+  return response;
+};
+
+const getProfileImage = async () => {
+  const response = await profileImageAPI('GET');
+  return response;
+};
+
+
 export {
   commonAPICall,
   getAPI,
@@ -81,4 +116,7 @@ export {
   getStripeCreatePortalSessionUrl,
   getStripeCheckoutUrl,
   getStripeSubscriptions,
+  getProfileImage,
+  profileImageDelete,
+  profileImageUpload,
 };

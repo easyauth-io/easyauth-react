@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {AuthProvider} from 'react-oidc-context';
 import {WebStorageStateStore} from 'oidc-client-ts';
+import {MantineProvider} from '@mantine/core';
 
 export const EasyauthProvider = ({
   authority,
@@ -22,7 +23,9 @@ export const EasyauthProvider = ({
   };
   return (
     <div>
-      <AuthProvider {...oidcConfig}>{children}</AuthProvider>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
+        <AuthProvider {...oidcConfig}>{children}</AuthProvider>
+      </MantineProvider>
     </div>
   );
 };
