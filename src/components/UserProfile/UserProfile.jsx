@@ -1,5 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {
+  getProfile,
   getProfileImage,
   profileImageDelete,
   profileImageUpload,
@@ -21,10 +22,10 @@ import {
 import {useDisclosure} from '@mantine/hooks';
 import {Toaster, toast} from 'react-hot-toast';
 import {iconUser} from '../uiComponents/iconUser.js';
-import {useUser} from '../../hooks/useUser/useUser.jsx';
+import TwoFactorAuthentication from '../uiComponents/TwoFactorAuthentication.jsx';
 
 export const UserProfile = () => {
-  const {user} = useUser();
+  const [profileData, setProfileData] = useState(null);
   const [opened, {open, close}] = useDisclosure(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false); // For delete conformation modal
   const [selectedFile, setSelectedFile] = useState(null);
@@ -48,6 +49,20 @@ export const UserProfile = () => {
 
     fetchProfileImage();
   }, [refreshKey]);
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const profile = await getProfile();
+        setProfileData(profile.data);
+      } catch (error) {
+        // Handle error if the API request fails
+        toast.error(error);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   const handleFileChange = (file) => {
     setSelectedFile(file);
@@ -144,7 +159,7 @@ export const UserProfile = () => {
   return (
     <>
       <Toaster />
-      {user.roles ? (
+      {profileData ? (
         <>
           <Center>
             <Paper radius="md" withBorder shadow="sm" m={'xl'} p="lg">
@@ -217,34 +232,40 @@ export const UserProfile = () => {
                 <div>
                   <TextInput
                     label="Name"
-                    defaultValue={user?.fullname}
+                    defaultValue={profileData?.fullname}
                     disabled
                   />
                   <TextInput
                     label="Eamil"
-                    defaultValue={user?.email}
+                    defaultValue={profileData?.email}
                     disabled
                   />
                   <div>
                     Email Verified:{' '}
                     {
-                      <Badge color={user?.emailVerified ? 'green' : 'red'}>
-                        {user?.emailVerified ? 'verified' : 'not verified'}
+                      <Badge color={profileData?.emailVerified ? 'green' : 'red'}>
+                        {profileData?.emailVerified ? 'verified' : 'not verified'}
                       </Badge>
                     }
                   </div>
                   <TextInput
                     label="Phone"
-                    defaultValue={user?.phone}
+                    defaultValue={profileData?.phone}
                     disabled
                   />
                   <div>
                     Phone Verified:{' '}
                     {
-                      <Badge color={user?.phoneVerified ? 'green' : 'red'}>
-                        {user?.phoneVerified ? 'verified' : 'not verified'}
+                      <Badge color={profileData?.phoneVerified ? 'green' : 'red'}>
+                        {profileData?.phoneVerified ? 'verified' : 'not verified'}
                       </Badge>
                     }
+                  </div>
+                  <div>
+                    <TwoFactorAuthentication
+                      twoFaStatus={profileData?.twoFaEnabled}
+                      setProfileData={setProfileData}
+                    />
                   </div>
                 </div>
               </Flex>

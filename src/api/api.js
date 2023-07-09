@@ -107,6 +107,27 @@ const getProfileImage = async () => {
   return response;
 };
 
+const enableTwoFactor = async (password) => {
+  const data = {
+    password: password,
+  };
+  const response = await postAPI('/api/twofactor/enable', data);
+  return response;
+};
+const disableTwoFactor = async (password) => {
+  const data = {
+    password: password,
+  };
+  const response = await postAPI('/api/twofactor/disable', data);
+  return response;
+};
+
+const enableConfirmTwoFactor = async (authPin) => {
+  const response = await postAPI(
+      `/api/twofactor/enable-confirm?code=${authPin}`,
+  );
+  return response;
+};
 
 export {
   commonAPICall,
@@ -119,4 +140,7 @@ export {
   getProfileImage,
   profileImageDelete,
   profileImageUpload,
+  disableTwoFactor,
+  enableConfirmTwoFactor,
+  enableTwoFactor,
 };
