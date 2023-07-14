@@ -73,6 +73,62 @@ const getStripeSubscriptions = async () => {
   return response;
 };
 
+const profileImageAPI = async (method, formData = null) => {
+  const headers = {
+    accept: '*/*',
+  };
+  const response = await commonAPICall(
+      '/api/profile/profile-image',
+      method,
+      formData,
+      headers,
+  );
+  try {
+    response.data = await response.blob();
+  } catch (error) {
+    response.dataerror = error;
+  }
+  return response;
+};
+
+const profileImageUpload = async (file) => {
+  const formData = new FormData();
+  formData.append('profileImageFile', file);
+  const response = await profileImageAPI('POST', formData);
+  return response;
+};
+const profileImageDelete = async () => {
+  const response = await profileImageAPI('DELETE');
+  return response;
+};
+
+const getProfileImage = async () => {
+  const response = await profileImageAPI('GET');
+  return response;
+};
+
+const enableTwoFactor = async (password) => {
+  const data = {
+    password: password,
+  };
+  const response = await postAPI('/api/twofactor/enable', data);
+  return response;
+};
+const disableTwoFactor = async (password) => {
+  const data = {
+    password: password,
+  };
+  const response = await postAPI('/api/twofactor/disable', data);
+  return response;
+};
+
+const enableConfirmTwoFactor = async (authPin) => {
+  const response = await postAPI(
+      `/api/twofactor/enable-confirm?code=${authPin}`,
+  );
+  return response;
+};
+
 export {
   commonAPICall,
   getAPI,
@@ -81,4 +137,10 @@ export {
   getStripeCreatePortalSessionUrl,
   getStripeCheckoutUrl,
   getStripeSubscriptions,
+  getProfileImage,
+  profileImageDelete,
+  profileImageUpload,
+  disableTwoFactor,
+  enableConfirmTwoFactor,
+  enableTwoFactor,
 };
